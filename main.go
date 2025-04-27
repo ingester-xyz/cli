@@ -1,7 +1,15 @@
+// main.go
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/ingester-xyz/cli/cmd"
+)
 
 func main() {
-	fmt.Println("Hello from my CLI tool!")
+	// This is the only code in main.go!
+	if err := cmd.Execute(); err != nil {
+		fmt.Println("Error:", err)
+	}
 }

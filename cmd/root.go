@@ -1,0 +1,27 @@
+package cmd
+
+import (
+	"fmt"
+
+	"github.com/ingester-xyz/cli/cmd/s3"
+	"github.com/spf13/cobra"
+)
+
+// rootCmd defines the root command for the CLI.
+var rootCmd = &cobra.Command{
+	Use:   "cli",
+	Short: "A CLI tool for interacting with AWS S3 and Arweave",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Welcome to the CLI tool! Use a subcommand.")
+	},
+}
+
+// Execute runs the root command.
+func Execute() error {
+	return rootCmd.Execute()
+}
+
+func init() {
+	// Adding subcommands for S3 and Arweave
+	rootCmd.AddCommand(s3.S3Cmd)
+}
