@@ -2,14 +2,16 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"os"
 
 	"github.com/ingester-xyz/cli/cmd"
 )
 
 func main() {
-	// This is the only code in main.go!
+	// Execute the CLI tool
 	if err := cmd.Execute(); err != nil {
-		fmt.Println("Error:", err)
+		log.Fatal(err)
+		os.Exit(1)
 	}
 }

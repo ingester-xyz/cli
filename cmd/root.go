@@ -1,9 +1,9 @@
+// cmd/root.go
 package cmd
 
 import (
 	"fmt"
 
-	"github.com/ingester-xyz/cli/cmd/s3"
 	"github.com/spf13/cobra"
 )
 
@@ -22,6 +22,6 @@ func Execute() error {
 }
 
 func init() {
-	// Adding subcommands for S3 and Arweave
-	rootCmd.AddCommand(s3.S3Cmd)
+	// Adding subcommands for S3
+	rootCmd.AddCommand(S3Cmd)
 }
