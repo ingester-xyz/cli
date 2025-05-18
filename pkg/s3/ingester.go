@@ -2,8 +2,9 @@ package s3
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
+	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -11,84 +12,77 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 )
 
-// DownloadFileFromS3 downloads a file from S3 and returns the file content in memory.
-func DownloadFileFromS3(bucket string, key string, region string, profile string) ([]byte, error) {
-	// Load the AWS session using the provided profile and region
+// DownloadFileFromS3 downloads a file from S3 using AWS environment variables for credentials.
+// It takes the bucket name, object key, and optional region. If region is empty, it falls back to AWS_REGION.
+func DownloadFileFromS3(bucket, key, region string) ([]byte, error) {
+	// Use AWS_REGION environment variable if region not provided
+	if region == "" {
+		region = os.Getenv("AWS_REGION")
+	}
+
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(region),                            // Use the region passed as a parameter
-		Credentials: credentials.NewSharedCredentials("", profile), // Use the profile from AWS credentials
+		Region:      aws.String(region),
+		Credentials: credentials.NewEnvCredentials(), // Reads AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, optionally AWS_SESSION_TOKEN
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to create AWS session: %v", err)
 	}
 
-	// Create an S3 service client
 	s3Client := s3.New(sess)
 
-	// Set up the parameters for the S3 GetObject call
-	params := &s3.GetObjectInput{
+	resp, err := s3Client.GetObject(&s3.GetObjectInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(key),
-	}
-
-	// Make the S3 GetObject call to retrieve the object
-	resp, err := s3Client.GetObject(params)
+	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to get object %s from bucket %s: %v", key, bucket, err)
 	}
 	defer resp.Body.Close()
 
-	// Read the file content into memory (as a byte slice)
-	fileContent, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("unable to read file content from S3: %v", err)
+		return nil, fmt.Errorf("unable to read object body: %v", err)
 	}
 
-	// Return the file content
-	return fileContent, nil
+	return data, nil
 }
 
-// IngestFromS3 will list and download each object from S3 into memory.
-func IngestFromS3(bucket string, region string, profile string) (map[string][]byte, error) {
-	// Initialize AWS session with the provided profile and region
+// IngestFromS3 lists and downloads all objects from the given S3 bucket using AWS environment variables for credentials.
+// It returns a map of object keys to their content.
+func IngestFromS3(bucket, region string) (map[string][]byte, error) {
+	// Use AWS_REGION environment variable if region not provided
+	if region == "" {
+		region = os.Getenv("AWS_REGION")
+	}
+
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(region),                            // Use the region passed as a parameter
-		Credentials: credentials.NewSharedCredentials("", profile), // Use the profile from AWS credentials
+		Region:      aws.String(region),
+		Credentials: credentials.NewEnvCredentials(),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to create AWS session: %v", err)
 	}
 
-	// Create the S3 client
 	s3Client := s3.New(sess)
 
-	// Define input parameters for listing objects
-	input := &s3.ListObjectsV2Input{
+	// List objects in the bucket
+	listOutput, err := s3Client.ListObjectsV2(&s3.ListObjectsV2Input{
 		Bucket: aws.String(bucket),
-	}
-
-	// List objects in the specified bucket and prefix
-	result, err := s3Client.ListObjectsV2(input)
+	})
 	if err != nil {
-		return nil, fmt.Errorf("unable to list objects in S3: %v", err)
+		return nil, fmt.Errorf("unable to list objects in bucket %s: %v", bucket, err)
 	}
 
-	// Map to store the ingested data (file names and their content)
-	ingestedData := make(map[string][]byte)
-
-	// Download each object from S3 and store in memory
-	for _, item := range result.Contents {
-		// Download the file from S3
-		fileContent, err := DownloadFileFromS3(bucket, *item.Key, region, profile)
+	// Download each object
+	result := make(map[string][]byte)
+	for _, obj := range listOutput.Contents {
+		content, err := DownloadFileFromS3(bucket, *obj.Key, region)
 		if err != nil {
-			log.Printf("Error downloading file %s: %v\n", *item.Key, err)
-			continue // Proceed to next file if there's an error
+			log.Printf("error downloading %s: %v", *obj.Key, err)
+			continue
 		}
-
-		// Store the downloaded file content in the map
-		ingestedData[*item.Key] = fileContent
+		result[*obj.Key] = content
 	}
 
-	// Return the map of ingested data
-	return ingestedData, nil
+	return result, nil
 }
