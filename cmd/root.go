@@ -25,4 +25,6 @@ func init() {
 	// Adding subcommands for S3
 	rootCmd.AddCommand(S3Cmd)
 	rootCmd.AddCommand(LookupCmd)
+	rootCmd.AddCommand(ListCmd)
+	rootCmd.AddCommand(GetCmd)
 }
