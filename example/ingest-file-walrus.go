@@ -47,7 +47,14 @@ func main() {
 		fmt.Printf("ℹ️  Blob already exists: %s\n", blobID)
 	}
 
-	// Optionally write the BlobID to a file or export for later use
-	// e.g., os.WriteFile("last_blob_id.txt", []byte(blobID), 0644)
+	// default aggregators URL list -> https://github.com/namihq/walrus-go/blob/main/endpoints.go#L41
+	aggregatorEndpoint := "https://aggregator.walrus-testnet.walrus.space"
+
+	// Construct and print the public access URL
+	accessURL := fmt.Sprintf("%s/v1/blobs/%s\n", aggregatorEndpoint, blobID)
+	fmt.Printf("🔗 Access your file at: %s\n", accessURL)
+
+	// open this file with target file type (e.g. ".webp")
+
 	os.Exit(0)
 }
