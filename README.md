@@ -139,12 +139,12 @@ cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
 1. **Ingest** an S3 bucket into Walrus:
 
    ```bash
-   export AWS_ACCESS_KEY_ID=AKIA…
-   export AWS_SECRET_ACCESS_KEY=abcd…
-   export AWS_REGION=us-west-2
+   export AWS_ACCESS_KEY=<you-aws-access-key>
+   export AWS_SECRET_ACCESS_KEY=<you-aws-secret-key>
+   export AWS_REGION=eu-west-1
    export WALRUS_ENDPOINT="https://aggregator.walrus-testnet.walrus.space,https://publisher.walrus-testnet.walrus.space"
 
-   ./cli s3 --bucket my-test-bucket --region us-west-2
+   ./cli s3 --bucket my-test-bucket --region eu-west-1
    # → Refs metadata stored as blob: QmSvz…Yz123
    ```
 
