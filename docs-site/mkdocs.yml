@@ -1,0 +1,10 @@
+site_name: Ingester CLI
+site_description: "Ingest S3 ↔ Walrus storage with a simple CLI"
+theme:
+  name: material
+nav:
+  - Home: index.md
+
+# (Optionally) enable search, code highlighting, etc.
+plugins:
+  - search
