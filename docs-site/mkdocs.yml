@@ -2,9 +2,40 @@ site_name: Ingester CLI
 site_description: "Ingest S3 ↔ Walrus storage with a simple CLI"
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - content.code.copy
+    - content.tabs.link
+    - search.highlight
+
 nav:
   - Home: index.md
+  - Introduction:
+      - What is Ingester?: intro/what-is-ingester.md
+      - Why Walrus?: intro/why-walrus.md
+      - Architecture Overview: intro/architecture.md
+  - Technical Guide:
+      - CLI Commands: guide/commands.md
 
-# (Optionally) enable search, code highlighting, etc.
 plugins:
   - search
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji
+  - pymdownx.snippets
+  - pymdownx.extra
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - attr_list  # This enables `{}` attribute support in Markdown
