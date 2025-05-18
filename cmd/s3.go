@@ -55,10 +55,5 @@ var S3Cmd = &cobra.Command{
 
 func init() {
 	S3Cmd.Flags().String("bucket", "", "S3 bucket name")
-	S3Cmd.Flags().String("prefix", "", "S3 prefix (folder)")
-	S3Cmd.Flags().String("manifest-file", "", "Path to manifest file (unused)")
 	S3Cmd.Flags().String("region", "", "AWS region")
-	S3Cmd.Flags().Bool("encryption", false, "Encrypt before upload (unused)")
-	S3Cmd.Flags().String("tags", "", "Comma-separated tags (unused)")
-	S3Cmd.Flags().Int("concurrency", 5, "Concurrent downloads (unused)")
 }
