@@ -51,7 +51,4 @@ func init() {
 	// Flags for lookup command
 	LookupCmd.Flags().String("meta-blob-id", "", "Walrus metadata blob ID containing S3 references")
 	LookupCmd.Flags().String("key", "", "S3 key to look up; omit to list all keys")
-
-	// Register with root command
-	RootCmd.AddCommand(LookupCmd)
 }
