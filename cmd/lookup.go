@@ -63,6 +63,27 @@ var GetCmd = &cobra.Command{
 	},
 }
 
+// UrlCmd returns the public URL for a given S3 key
+var UrlCmd = &cobra.Command{
+	Use:   "url",
+	Short: "Get public URL for ingested data key in Walrus",
+	Run: func(cmd *cobra.Command, args []string) {
+		metaBlobID, _ := cmd.Flags().GetString("meta-blob-id")
+		key, _ := cmd.Flags().GetString("key")
+
+		if metaBlobID == "" || key == "" {
+			log.Fatal("Both --meta-blob-id and --key are required to get a blob URL")
+		}
+
+		url, err := walrus.GetBlobURL(metaBlobID, key)
+		if err != nil {
+			log.Fatalf("Error retrieving URL for key %s: %v", key, err)
+		}
+
+		fmt.Println(url)
+	},
+}
+
 func init() {
 	// List command flag
 	ListCmd.Flags().String("meta-blob-id", "", "Walrus metadata blob ID containing S3 refs")
@@ -71,4 +92,8 @@ func init() {
 	GetCmd.Flags().String("meta-blob-id", "", "Walrus metadata blob ID containing S3 refs")
 	GetCmd.Flags().String("key", "", "Original S3 key to fetch")
 	GetCmd.Flags().String("out", "", "Output file path; stdout if empty")
+
+	// Url command flags
+	UrlCmd.Flags().String("meta-blob-id", "", "Walrus metadata blob ID containing S3 refs")
+	UrlCmd.Flags().String("key", "", "Original S3 key to get public URL for")
 }

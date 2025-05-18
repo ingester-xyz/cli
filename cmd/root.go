@@ -27,4 +27,5 @@ func init() {
 	rootCmd.AddCommand(LookupCmd)
 	rootCmd.AddCommand(ListCmd)
 	rootCmd.AddCommand(GetCmd)
+	rootCmd.AddCommand(UrlCmd)
 }

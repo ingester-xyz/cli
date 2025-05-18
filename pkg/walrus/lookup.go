@@ -64,3 +64,14 @@ func GetBlob(metaBlobID, key string) ([]byte, error) {
 	}
 	return data, nil
 }
+
+// GetBlobURL returns the public URL to access the Walrus blob for a given S3 key
+func GetBlobURL(metaBlobID, key string) (string, error) {
+	const walrusBlobBaseURL = "https://aggregator.walrus-testnet.walrus.space/v1/blobs"
+
+	blobID, err := Lookup(metaBlobID, key)
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%s/%s", walrusBlobBaseURL, blobID), nil
+}
