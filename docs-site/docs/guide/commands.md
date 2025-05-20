@@ -36,24 +36,6 @@ A Golang-based command‑line application to:
 
 ---
 
-## Building the CLI
-
-```bash
-# Clone the repository
-git clone <repo-url> cli-tool
-cd cli-tool
-
-# Download dependencies
-go mod tidy
-
-# Build the binary
-go build -o cli ./cmd
-```
-
-This generates an executable named `cli` in your project root.
-
----
-
 ## Commands Overview
 
 All commands live under the `cli` root command:
@@ -64,6 +46,7 @@ All commands live under the `cli` root command:
 | `list`   | Lists all ingested S3 keys from a metadata blob                                        |
 | `get`    | Retrieves a single file by its S3 key and writes to stdout or file                     |
 | `lookup` | (alias) Same as `list` + `get` combined: lists when no key, fetches when `--key` given |
+| `local`  | Ingests files from a local path into Walrus                                            |
 
 ### 1. `cli s3`
 
@@ -80,7 +63,6 @@ cli s3 \
 
   - `--bucket` (string, required)
   - `--region` (string, required)
-  - Other flags (`--prefix`, `--tags`, etc.) are reserved for future use and currently ignored.
 
 ### 2. `cli list`
 
@@ -108,14 +90,12 @@ cli get \
 cli get \
   --meta-blob-id QmSvz…Yz123 \
   --key images/photo.png \
-  --out photo.png
 ```
 
 - **Flags**:
 
   - `--meta-blob-id` (string, required)
   - `--key` (string, required)
-  - `--out` (string, optional)
 
 ### 4. `cli lookup`
 
@@ -130,6 +110,14 @@ cli lookup --meta-blob-id QmSvz…Yz123
 
 # get mode:
 cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
+```
+
+### 5. `cli local`
+
+Ingests files from a local directory into Walrus storage.
+
+```bash
+cli local file --path ./examples/assets/sample.webp
 ```
 
 ---
@@ -157,7 +145,7 @@ cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
 3. **Retrieve** one file:
 
    ```bash
-   ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt --out file.txt
+   ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
    ```
 
 4. **Lookup** in combined mode:
@@ -199,7 +187,7 @@ Use a real AWS S3 bucket in the `eu-west-1` region for end‑to‑end testing:
 
    ```bash
    ./cli list --meta-blob-id QmSvz…Yz123
-   ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt --out example_downloaded.txt
+   ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt
    ```
 
 ---

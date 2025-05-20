@@ -9,10 +9,10 @@ import (
 
 // rootCmd defines the root command for the CLI.
 var rootCmd = &cobra.Command{
-	Use:   "cli",
-	Short: "A CLI tool for interacting with AWS S3 and Arweave",
+	Use:   "ingester",
+	Short: "A CLI tool to ingest data into Walrus 🚰, from AWS S3 buckets and more!",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Welcome to the CLI tool! Use a subcommand.")
+		fmt.Println("Welcome to Ingester CLI 🚰! Use a subcommand.")
 	},
 }
 

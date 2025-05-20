@@ -13,7 +13,7 @@ import (
 // ListCmd lists all S3 keys stored in a persisted refs metadata blob.
 var ListCmd = &cobra.Command{
 	Use:   "list",
-	Short: "List ingested S3 keys from Walrus refs metadata",
+	Short: "List ingested AWS S3 keys from Walrus refs metadata",
 	Run: func(cmd *cobra.Command, args []string) {
 		metaBlobID, _ := cmd.Flags().GetString("meta-blob-id")
 		if metaBlobID == "" {
@@ -33,7 +33,7 @@ var ListCmd = &cobra.Command{
 // GetCmd retrieves a specific file by its original S3 key and writes content to stdout.
 var GetCmd = &cobra.Command{
 	Use:   "get",
-	Short: "Fetch ingested file from Walrus by S3 key",
+	Short: "Fetch ingested file from Walrus by AWS S3 key",
 	Run: func(cmd *cobra.Command, args []string) {
 		metaBlobID, _ := cmd.Flags().GetString("meta-blob-id")
 		key, _ := cmd.Flags().GetString("key")
@@ -66,7 +66,7 @@ var GetCmd = &cobra.Command{
 // UrlCmd returns the public URL for a given S3 key
 var UrlCmd = &cobra.Command{
 	Use:   "url",
-	Short: "Get public URL for ingested data key in Walrus",
+	Short: "Get public URL for AWS S3 ingested data key in Walrus",
 	Run: func(cmd *cobra.Command, args []string) {
 		metaBlobID, _ := cmd.Flags().GetString("meta-blob-id")
 		key, _ := cmd.Flags().GetString("key")

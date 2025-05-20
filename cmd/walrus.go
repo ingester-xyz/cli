@@ -13,7 +13,7 @@ import (
 // using the persisted Walrus metadata blob.
 var LookupCmd = &cobra.Command{
 	Use:   "lookup",
-	Short: "Lookup and retrieve objects stored in Walrus by S3 key",
+	Short: "Lookup and retrieve objects stored in Walrus by AWS S3 key",
 	Run: func(cmd *cobra.Command, args []string) {
 		metaBlobID, _ := cmd.Flags().GetString("meta-blob-id")
 		key, _ := cmd.Flags().GetString("key")

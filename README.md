@@ -108,14 +108,12 @@ cli get \
 cli get \
   --meta-blob-id QmSvz…Yz123 \
   --key images/photo.png \
-  --out photo.png
 ```
 
 - **Flags**:
 
   - `--meta-blob-id` (string, required)
   - `--key` (string, required)
-  - `--out` (string, optional)
 
 ### 4. `cli lookup`
 
@@ -157,7 +155,7 @@ cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
 3. **Retrieve** one file:
 
    ```bash
-   ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt --out file.txt
+   ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
    ```
 
 4. **Lookup** in combined mode:
@@ -199,7 +197,7 @@ Use a real AWS S3 bucket in the `eu-west-1` region for end‑to‑end testing:
 
    ```bash
    ./cli list --meta-blob-id QmSvz…Yz123
-   ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt --out example_downloaded.txt
+   ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt
    ```
 
 ---
