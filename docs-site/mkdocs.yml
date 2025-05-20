@@ -15,8 +15,7 @@ nav:
   - Home: index.md
   - Introduction:
       - What is Ingester?: intro/what-is-ingester.md
-      - Why Walrus?: intro/why-walrus.md
-      - Architecture Overview: intro/architecture.md
+      - Why Ingester?: intro/why-ingester.md
   - Technical Guide:
       - CLI Commands: guide/commands.md
   - Examples:

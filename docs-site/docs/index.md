@@ -16,7 +16,6 @@ This site contains everything you need to understand, install, and operate the t
 👉 Jump to:
 
 - [What is Ingester?](intro/what-is-ingester.md)
-- [Why Walrus?](intro/why-walrus.md)
+- [Why Ingester?](intro/why-ingester.md)
 - [Technical Guide](guide/commands.md)
-
-> **Pitch highlight**: Ingester bridges legacy cloud data with modern decentralized storage — all from the command line.
+- [Examples](examples/examples.md)

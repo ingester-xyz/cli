@@ -40,13 +40,12 @@ A Golang-based command‑line application to:
 
 All commands live under the `cli` root command:
 
-| Command  | Description                                                                            |
-| -------- | -------------------------------------------------------------------------------------- |
-| `s3`     | Ingests all objects from a bucket into Walrus and persists refs metadata               |
-| `list`   | Lists all ingested S3 keys from a metadata blob                                        |
-| `get`    | Retrieves a single file by its S3 key and writes to stdout or file                     |
-| `lookup` | (alias) Same as `list` + `get` combined: lists when no key, fetches when `--key` given |
-| `local`  | Ingests files from a local path into Walrus                                            |
+| Command | Description                                                              |
+| ------- | ------------------------------------------------------------------------ |
+| `s3`    | Ingests all objects from a bucket into Walrus and persists refs metadata |
+| `list`  | Lists all ingested S3 keys from a metadata blob                          |
+| `get`   | Retrieves a single file by its S3 key and writes to stdout or file       |
+| `local` | Ingests files from a local path into Walrus                              |
 
 ### 1. `cli s3`
 
@@ -97,21 +96,6 @@ cli get \
   - `--meta-blob-id` (string, required)
   - `--key` (string, required)
 
-### 4. `cli lookup`
-
-Combined behavior of `list` and `get`:
-
-- No `--key` → lists all keys
-- With `--key` → fetches that file to stdout
-
-```bash
-# list mode:
-cli lookup --meta-blob-id QmSvz…Yz123
-
-# get mode:
-cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
-```
-
 ### 5. `cli local`
 
 Ingests files from a local directory into Walrus storage.
@@ -148,16 +132,6 @@ cli local file --path ./examples/assets/sample.webp
    ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
    ```
 
-4. **Lookup** in combined mode:
-
-   ```bash
-   # list
-   ./cli lookup --meta-blob-id QmSvz…Yz123
-
-   # get
-   ./cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
-   ```
-
 ---
 
 ## Testing against AWS S3 in eu-west-1
@@ -189,7 +163,3 @@ Use a real AWS S3 bucket in the `eu-west-1` region for end‑to‑end testing:
    ./cli list --meta-blob-id QmSvz…Yz123
    ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt
    ```
-
----
-
-Happy ingesting on AWS S3 in eu-west-1! Feel free to open issues or contribute enhancements on GitHub.
