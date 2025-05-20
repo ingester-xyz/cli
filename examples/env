@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# AWS env variables to provide S3 bucket read+list access
+export AWS_ACCESS_KEY_ID="<your-aws-access-key-id>"
+export AWS_SECRET_ACCESS_KEY="<your-aws-secret-access-key>"
+export AWS_REGION="<your-aws-default-region>"
+
+export AWS_S3_BUCKET="<your-aws-s3-bucket-name-to-ingest-from>"
