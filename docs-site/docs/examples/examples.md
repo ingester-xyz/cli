@@ -1,5 +1,7 @@
 # Ingester CLI examples 🚰
 
+Examples are available [here](https://github.com/ingester-xyz/cli/tree/feat/init-ingester-cli/examples).
+
 These examples provides a set of scripts for ingesting files into Walrus, either from a **local file** or from an **S3 bucket**.
 
 - **`file-ingestion.sh`**: Ingests a local file into Walrus.

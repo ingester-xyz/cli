@@ -19,6 +19,7 @@ nav:
       - Architecture Overview: intro/architecture.md
   - Technical Guide:
       - CLI Commands: guide/commands.md
+      - Examples: guide/examples.md
 
 plugins:
   - search
