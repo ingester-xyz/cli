@@ -29,14 +29,18 @@ func IngestFiles(files map[string][]byte) (refs map[string]string, errs map[stri
 			continue
 		}
 
+		const walrusBlobBaseURL = "https://aggregator.walrus-testnet.walrus.space/v1/blobs"
 		// Extract blob ID (newly created or existing)
 		var blobID string
 		if resp.NewlyCreated != nil {
 			blobID = resp.NewlyCreated.BlobObject.BlobID
 			log.Printf("Uploaded %s as new blob %s", key, blobID)
+			log.Printf("Available at %s/%s", walrusBlobBaseURL, blobID)
+
 		} else if resp.AlreadyCertified != nil {
 			blobID = resp.AlreadyCertified.BlobID
 			log.Printf("File %s already stored as blob %s", key, blobID)
+			log.Printf("Available at %s/%s", walrusBlobBaseURL, blobID)
 		}
 
 		// Store reference for lookup by original S3 key
