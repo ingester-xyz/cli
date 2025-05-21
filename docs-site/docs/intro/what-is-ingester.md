@@ -6,6 +6,8 @@
 
 For this first iteration, it helps migrating existing data from **AWS S3** into Walrus.
 
+![Ingester AWS Logo](../assets/aws-s3-ingester.png){ style="max-width: 20%; height: auto;" }
+
 More integrations are ready to come (e.g. Arweave -> Walrus).
 
 ## Context
