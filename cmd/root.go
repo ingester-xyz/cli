@@ -22,11 +22,14 @@ func Execute() error {
 }
 
 func init() {
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+
 	// Adding subcommands for S3
 	rootCmd.AddCommand(S3Cmd)
-	rootCmd.AddCommand(LookupCmd)
 	rootCmd.AddCommand(ListCmd)
 	rootCmd.AddCommand(GetCmd)
 	rootCmd.AddCommand(UrlCmd)
-	rootCmd.AddCommand(LocalCmd)
+
+	// rootCmd.AddCommand(LookupCmd)
+	// rootCmd.AddCommand(LocalCmd)
 }
