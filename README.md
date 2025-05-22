@@ -79,7 +79,6 @@ ingester s3 \
 
   - `--bucket` (string, required)
   - `--region` (string, required)
-  - Other flags (`--prefix`, `--tags`, etc.) are reserved for future use and currently ignored.
 
 ### 2. `ingester list`
 
@@ -103,10 +102,10 @@ ingester get \
   --meta-blob-id QmSvz…Yz123 \
   --key path/to/file.txt
 
-# To a file:
-ingester get \
-  --meta-blob-id QmSvz…Yz123 \
-  --key images/photo.png \
+# → Hello, this is the content of file.txt.
+# → It was originally stored in an AWS S3 bucket
+# → and ingested into Walrus via the CLI.
+# → Enjoy your data! 🚰
 ```
 
 - **Flags**:
