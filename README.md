@@ -1,11 +1,12 @@
-# CLI Tool for S3 ↔ Walrus
+# Ingester CLI 🚰
 
-A Golang-based command‑line application to:
+Ingester is a Go-based CLI tool designed to ingest data into Walrus seamless and predictable.
 
-- **Ingest** objects from an AWS S3 bucket into Walrus storage
-- **Persist** a metadata blob mapping original S3 keys to Walrus blob IDs
-- **List** ingested S3 keys via the metadata blob
-- **Fetch** (get) ingested files by their original S3 key
+Like opening the tap 🚰.
+
+For this first iteration, it helps migrating existing data from AWS S3 into Walrus.
+Also, this tool creates a metadata file that allow us to perform search operations in ingested data,
+similar to how AWS S3 behaves (e.g. list or get operations), which simplifies managing large amount of blobs on Walrus.
 
 ---
 
@@ -32,31 +33,29 @@ A Golang-based command‑line application to:
    export WALRUS_PUBLISHER_URLS="https://publisher.walrus-testnet.walrus.space"
    ```
 
-4. (Optional) **S3 emulator** for local tests (e.g. MinIO, LocalStack) if you don’t want to hit real AWS.
-
 ---
 
-## Building the CLI
+## Building
 
 ```bash
 # Clone the repository
-git clone <repo-url> cli-tool
-cd cli-tool
+git clone git@github.com:ingester-xyz/cli.git
+cd cli
 
 # Download dependencies
 go mod tidy
 
 # Build the binary
-go build -o cli ./cmd
+go build -o ingester .
 ```
 
-This generates an executable named `cli` in your project root.
+This generates an executable named `ingester` in your project root.
 
 ---
 
 ## Commands Overview
 
-All commands live under the `cli` root command:
+All commands live under the `ingester` root command:
 
 | Command  | Description                                                                            |
 | -------- | -------------------------------------------------------------------------------------- |
@@ -65,12 +64,12 @@ All commands live under the `cli` root command:
 | `get`    | Retrieves a single file by its S3 key and writes to stdout or file                     |
 | `lookup` | (alias) Same as `list` + `get` combined: lists when no key, fetches when `--key` given |
 
-### 1. `cli s3`
+### 1. `ingester s3`
 
 Downloads every object from an S3 bucket, uploads each to Walrus, then writes a single metadata blob containing the S3-to-BlobID map.
 
 ```bash
-cli s3 \
+ingester s3 \
   --bucket my-bucket       \
   --region us-west-2
 # → Refs metadata stored as blob: QmSvz…Yz123
@@ -82,30 +81,30 @@ cli s3 \
   - `--region` (string, required)
   - Other flags (`--prefix`, `--tags`, etc.) are reserved for future use and currently ignored.
 
-### 2. `cli list`
+### 2. `ingester list`
 
 Prints all original S3 keys stored in the given metadata blob.
 
 ```bash
-cli list --meta-blob-id QmSvz…Yz123
+ingester list --meta-blob-id QmSvz…Yz123
 ```
 
 - **Flags**:
 
   - `--meta-blob-id` (string, required)
 
-### 3. `cli get`
+### 3. `ingester get`
 
 Fetches one ingested file by its original S3 key and writes the raw bytes to stdout or a file.
 
 ```bash
 # To stdout:
-cli get \
+ingester get \
   --meta-blob-id QmSvz…Yz123 \
   --key path/to/file.txt
 
 # To a file:
-cli get \
+ingester get \
   --meta-blob-id QmSvz…Yz123 \
   --key images/photo.png \
 ```
@@ -114,21 +113,6 @@ cli get \
 
   - `--meta-blob-id` (string, required)
   - `--key` (string, required)
-
-### 4. `cli lookup`
-
-Combined behavior of `list` and `get`:
-
-- No `--key` → lists all keys
-- With `--key` → fetches that file to stdout
-
-```bash
-# list mode:
-cli lookup --meta-blob-id QmSvz…Yz123
-
-# get mode:
-cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
-```
 
 ---
 
@@ -139,67 +123,21 @@ cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/data.json
    ```bash
    export AWS_ACCESS_KEY=<you-aws-access-key>
    export AWS_SECRET_ACCESS_KEY=<you-aws-secret-key>
-   export AWS_REGION=eu-west-1
+   export AWS_REGION=<you-aws-region>
    export WALRUS_ENDPOINT="https://aggregator.walrus-testnet.walrus.space,https://publisher.walrus-testnet.walrus.space"
 
-   ./cli s3 --bucket my-test-bucket --region eu-west-1
+   ./ingester s3 --bucket my-test-bucket --region eu-west-1
    # → Refs metadata stored as blob: QmSvz…Yz123
    ```
 
 2. **List** all ingested keys:
 
    ```bash
-   ./cli list --meta-blob-id QmSvz…Yz123
+   ./ingester list --meta-blob-id QmSvz…Yz123
    ```
 
 3. **Retrieve** one file:
 
    ```bash
-   ./cli get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
+   ./ingester get --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
    ```
-
-4. **Lookup** in combined mode:
-
-   ```bash
-   # list
-   ./cli lookup --meta-blob-id QmSvz…Yz123
-
-   # get
-   ./cli lookup --meta-blob-id QmSvz…Yz123 --key path/to/file.txt
-   ```
-
----
-
-## Testing against AWS S3 in eu-west-1
-
-Use a real AWS S3 bucket in the `eu-west-1` region for end‑to‑end testing:
-
-1. **Create a test bucket**:
-
-   ```bash
-   aws s3 mb s3://my-test-bucket --region eu-west-1
-   ```
-
-2. **Upload a sample file**:
-
-   ```bash
-   aws s3 cp ./example.txt s3://my-test-bucket/example.txt --region eu-west-1
-   ```
-
-3. **Run the ingest command**:
-
-   ```bash
-   ./cli s3 --bucket my-test-bucket --region eu-west-1
-   # → Refs metadata stored as blob: QmSvz…Yz123
-   ```
-
-4. **List and retrieve** using the metadata blob ID as usual:
-
-   ```bash
-   ./cli list --meta-blob-id QmSvz…Yz123
-   ./cli get --meta-blob-id QmSvz…Yz123 --key example.txt
-   ```
-
----
-
-Happy ingesting on AWS S3 in eu-west-1! Feel free to open issues or contribute enhancements on GitHub.
