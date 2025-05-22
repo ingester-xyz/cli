@@ -64,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cli-tool-for-s3-walrus" class="md-skip">
+        <a href="#prerequisites" class="md-skip">
           Skip to content
         </a>
       
@@ -462,8 +462,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -496,8 +494,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -515,6 +511,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#building" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#commands-overview" class="md-nav__link">
     <span class="md-ellipsis">
       Commands Overview
@@ -525,36 +530,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-cli-s3" class="md-nav__link">
+  <a href="#1-ingester-s3" class="md-nav__link">
     <span class="md-ellipsis">
-      1. cli s3
+      1. ingester s3
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-cli-list" class="md-nav__link">
+  <a href="#2-ingester-list" class="md-nav__link">
     <span class="md-ellipsis">
-      2. cli list
+      2. ingester list
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-cli-get" class="md-nav__link">
+  <a href="#3-ingester-get" class="md-nav__link">
     <span class="md-ellipsis">
-      3. cli get
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#5-cli-local" class="md-nav__link">
-    <span class="md-ellipsis">
-      5. cli local
+      3. ingester get
     </span>
   </a>
   
@@ -569,15 +565,6 @@
   <a href="#example-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       Example Workflow
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#testing-against-aws-s3-in-eu-west-1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Testing against AWS S3 in eu-west-1
     </span>
   </a>
   
@@ -690,15 +677,8 @@
 
 
 
-<h1 id="cli-tool-for-s3-walrus">CLI Tool for S3 ↔ Walrus<a class="headerlink" href="#cli-tool-for-s3-walrus" title="Permanent link">&para;</a></h1>
-<p>A Golang-based command‑line application to:</p>
-<ul>
-<li><strong>Ingest</strong> objects from an AWS S3 bucket into Walrus storage</li>
-<li><strong>Persist</strong> a metadata blob mapping original S3 keys to Walrus blob IDs</li>
-<li><strong>List</strong> ingested S3 keys via the metadata blob</li>
-<li><strong>Fetch</strong> (get) ingested files by their original S3 key</li>
-</ul>
-<hr />
+  <h1>CLI Commands</h1>
+
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -722,12 +702,22 @@
 <span class="nb">export</span><span class="w"> </span><span class="nv">WALRUS_AGGREGATOR_URLS</span><span class="o">=</span><span class="s2">&quot;https://aggregator.walrus-testnet.walrus.space&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">WALRUS_PUBLISHER_URLS</span><span class="o">=</span><span class="s2">&quot;https://publisher.walrus-testnet.walrus.space&quot;</span>
 </code></pre></div>
-<ol>
-<li>(Optional) <strong>S3 emulator</strong> for local tests (e.g. MinIO, LocalStack) if you don’t want to hit real AWS.</li>
-</ol>
+<hr />
+<h2 id="building">Building<a class="headerlink" href="#building" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>git@github.com:ingester-xyz/cli.git
+<span class="nb">cd</span><span class="w"> </span>cli
+
+<span class="c1"># Download dependencies</span>
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+
+<span class="c1"># Build the binary</span>
+go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>ingester<span class="w"> </span>.
+</code></pre></div>
+<p>This generates an executable named <code>ingester</code> in your project root.</p>
 <hr />
 <h2 id="commands-overview">Commands Overview<a class="headerlink" href="#commands-overview" title="Permanent link">&para;</a></h2>
-<p>All commands live under the <code>cli</code> root command:</p>
+<p>All commands live under the <code>ingester</code> root command:</p>
 <table>
 <thead>
 <tr>
@@ -749,14 +739,14 @@
 <td>Retrieves a single file by its S3 key and writes to stdout or file</td>
 </tr>
 <tr>
-<td><code>local</code></td>
-<td>Ingests files from a local path into Walrus</td>
+<td><code>lookup</code></td>
+<td>(alias) Same as <code>list</code> + <code>get</code> combined: lists when no key, fetches when <code>--key</code> given</td>
 </tr>
 </tbody>
 </table>
-<h3 id="1-cli-s3">1. <code>cli s3</code><a class="headerlink" href="#1-cli-s3" title="Permanent link">&para;</a></h3>
+<h3 id="1-ingester-s3">1. <code>ingester s3</code><a class="headerlink" href="#1-ingester-s3" title="Permanent link">&para;</a></h3>
 <p>Downloads every object from an S3 bucket, uploads each to Walrus, then writes a single metadata blob containing the S3-to-BlobID map.</p>
-<div class="highlight"><pre><span></span><code>cli<span class="w"> </span>s3<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>ingester<span class="w"> </span>s3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--bucket<span class="w"> </span>my-bucket<span class="w">       </span><span class="se">\</span>
 <span class="w">  </span>--region<span class="w"> </span>us-west-2
 <span class="c1"># → Refs metadata stored as blob: QmSvz…Yz123</span>
@@ -769,10 +759,11 @@
 <p><code>--bucket</code> (string, required)</p>
 </li>
 <li><code>--region</code> (string, required)</li>
+<li>Other flags (<code>--prefix</code>, <code>--tags</code>, etc.) are reserved for future use and currently ignored.</li>
 </ul>
-<h3 id="2-cli-list">2. <code>cli list</code><a class="headerlink" href="#2-cli-list" title="Permanent link">&para;</a></h3>
+<h3 id="2-ingester-list">2. <code>ingester list</code><a class="headerlink" href="#2-ingester-list" title="Permanent link">&para;</a></h3>
 <p>Prints all original S3 keys stored in the given metadata blob.</p>
-<div class="highlight"><pre><span></span><code>cli<span class="w"> </span>list<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123
+<div class="highlight"><pre><span></span><code>ingester<span class="w"> </span>list<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123
 </code></pre></div>
 <ul>
 <li>
@@ -782,15 +773,15 @@
 <p><code>--meta-blob-id</code> (string, required)</p>
 </li>
 </ul>
-<h3 id="3-cli-get">3. <code>cli get</code><a class="headerlink" href="#3-cli-get" title="Permanent link">&para;</a></h3>
+<h3 id="3-ingester-get">3. <code>ingester get</code><a class="headerlink" href="#3-ingester-get" title="Permanent link">&para;</a></h3>
 <p>Fetches one ingested file by its original S3 key and writes the raw bytes to stdout or a file.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># To stdout:</span>
-cli<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
+ingester<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="w"> </span>path/to/file.txt
 
 <span class="c1"># To a file:</span>
-cli<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
+ingester<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="w"> </span>images/photo.png<span class="w"> </span><span class="se">\</span>
 </code></pre></div>
@@ -803,57 +794,28 @@ cli<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
 </li>
 <li><code>--key</code> (string, required)</li>
 </ul>
-<h3 id="5-cli-local">5. <code>cli local</code><a class="headerlink" href="#5-cli-local" title="Permanent link">&para;</a></h3>
-<p>Ingests files from a local directory into Walrus storage.</p>
-<div class="highlight"><pre><span></span><code>cli<span class="w"> </span><span class="nb">local</span><span class="w"> </span>file<span class="w"> </span>--path<span class="w"> </span>./examples/assets/sample.webp
-</code></pre></div>
 <hr />
 <h2 id="example-workflow">Example Workflow<a class="headerlink" href="#example-workflow" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>Ingest</strong> an S3 bucket into Walrus:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>AKIA…
-<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>abcd…
-<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_REGION</span><span class="o">=</span>us-west-2
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY</span><span class="o">=</span>&lt;you-aws-access-key&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>&lt;you-aws-secret-key&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_REGION</span><span class="o">=</span>&lt;you-aws-region&gt;
 <span class="nb">export</span><span class="w"> </span><span class="nv">WALRUS_ENDPOINT</span><span class="o">=</span><span class="s2">&quot;https://aggregator.walrus-testnet.walrus.space,https://publisher.walrus-testnet.walrus.space&quot;</span>
 
-./cli<span class="w"> </span>s3<span class="w"> </span>--bucket<span class="w"> </span>my-test-bucket<span class="w"> </span>--region<span class="w"> </span>us-west-2
+./ingester<span class="w"> </span>s3<span class="w"> </span>--bucket<span class="w"> </span>my-test-bucket<span class="w"> </span>--region<span class="w"> </span>eu-west-1
 <span class="c1"># → Refs metadata stored as blob: QmSvz…Yz123</span>
 </code></pre></div>
 <ol>
 <li><strong>List</strong> all ingested keys:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>./cli<span class="w"> </span>list<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123
+<div class="highlight"><pre><span></span><code>./ingester<span class="w"> </span>list<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123
 </code></pre></div>
 <ol>
 <li><strong>Retrieve</strong> one file:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>./cli<span class="w"> </span>get<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span>--key<span class="w"> </span>path/to/file.txt
-</code></pre></div>
-<hr />
-<h2 id="testing-against-aws-s3-in-eu-west-1">Testing against AWS S3 in eu-west-1<a class="headerlink" href="#testing-against-aws-s3-in-eu-west-1" title="Permanent link">&para;</a></h2>
-<p>Use a real AWS S3 bucket in the <code>eu-west-1</code> region for end‑to‑end testing:</p>
-<ol>
-<li><strong>Create a test bucket</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>s3<span class="w"> </span>mb<span class="w"> </span>s3://my-test-bucket<span class="w"> </span>--region<span class="w"> </span>eu-west-1
-</code></pre></div>
-<ol>
-<li><strong>Upload a sample file</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>s3<span class="w"> </span>cp<span class="w"> </span>./example.txt<span class="w"> </span>s3://my-test-bucket/example.txt<span class="w"> </span>--region<span class="w"> </span>eu-west-1
-</code></pre></div>
-<ol>
-<li><strong>Run the ingest command</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>./cli<span class="w"> </span>s3<span class="w"> </span>--bucket<span class="w"> </span>my-test-bucket<span class="w"> </span>--region<span class="w"> </span>eu-west-1
-<span class="c1"># → Refs metadata stored as blob: QmSvz…Yz123</span>
-</code></pre></div>
-<ol>
-<li><strong>List and retrieve</strong> using the metadata blob ID as usual:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>./cli<span class="w"> </span>list<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123
-./cli<span class="w"> </span>get<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span>--key<span class="w"> </span>example.txt
+<div class="highlight"><pre><span></span><code>./ingester<span class="w"> </span>get<span class="w"> </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span>--key<span class="w"> </span>path/to/file.txt
 </code></pre></div>
 
 
