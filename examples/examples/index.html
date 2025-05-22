@@ -664,15 +664,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-ingesting-a-local-file" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Ingesting a Local File
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#2-ingesting-files-from-an-s3-bucket" class="md-nav__link">
     <span class="md-ellipsis">
       2. Ingesting Files from an S3 Bucket
@@ -731,7 +722,6 @@
 <h2 id="examples-are-available-here">Examples are available <a href="https://github.com/ingester-xyz/cli/tree/feat/init-ingester-cli/examples">here</a>.<a class="headerlink" href="#examples-are-available-here" title="Permanent link">&para;</a></h2>
 <p>These examples provides a set of scripts for ingesting files into Walrus, either from a <strong>local file</strong> or from an <strong>S3 bucket</strong>.</p>
 <ul>
-<li><strong><code>file-ingestion.sh</code></strong>: Ingests a local file into Walrus.</li>
 <li><strong><code>s3-aws-ingestion.sh</code></strong>: Ingests files from an S3 bucket into Walrus.</li>
 </ul>
 <p>Make sure to configure your environment variables (<code>AWS_ACCESS_KEY_ID</code>, <code>AWS_SECRET_ACCESS_KEY</code>, <code>AWS_REGION</code>, <code>AWS_S3_BUCKET</code>) correctly before running the scripts.</p>
@@ -739,7 +729,6 @@
 <h2 id="folder-structure">Folder Structure<a class="headerlink" href="#folder-structure" title="Permanent link">&para;</a></h2>
 <p>The <code>examples/</code> folder contains the following scripts:</p>
 <ul>
-<li><strong><code>file-ingestion.sh</code></strong>: Ingests a local file into Walrus.</li>
 <li><strong><code>s3-aws-ingestion.sh</code></strong>: Ingests files from an S3 bucket into Walrus.</li>
 <li><strong><code>env</code></strong>: Contains the AWS environment variables required to interact with the S3 bucket.</li>
 </ul>
@@ -750,7 +739,7 @@
 </code></pre></div>
 <p>If Go is not installed, follow the <a href="https://golang.org/doc/install">Go installation guide</a> to install Go.</p>
 <h3 id="3-ingest-cli-binary">3. <strong>Ingest CLI Binary</strong><a class="headerlink" href="#3-ingest-cli-binary" title="Permanent link">&para;</a></h3>
-<p>The <code>ingester</code> binary must be built using the Go source code before running the ingestion scripts. The <code>file-ingestion.sh</code> and <code>s3-aws-ingestion.sh</code> scripts will automatically build the binary.</p>
+<p>The <code>ingester</code> binary must be built using the Go source code before running the ingestion scripts. The <code>s3-aws-ingestion.sh</code> scripts will automatically build the binary.</p>
 <h2 id="setup-and-configuration">Setup and Configuration<a class="headerlink" href="#setup-and-configuration" title="Permanent link">&para;</a></h2>
 <h3 id="1-set-environment-variables">1. <strong>Set Environment Variables</strong><a class="headerlink" href="#1-set-environment-variables" title="Permanent link">&para;</a></h3>
 <p>In the <code>env</code> file located in the <code>examples/</code> folder, you must configure your AWS credentials and the S3 bucket name.</p>
@@ -766,18 +755,6 @@
 </code></pre></div>
 <p>Replace the placeholders (<code>&lt;your-aws-access-key-id&gt;</code>, <code>&lt;your-aws-secret-access-key&gt;</code>, etc.) with your actual AWS credentials and the S3 bucket name.</p>
 <h2 id="running-the-scripts">Running the Scripts<a class="headerlink" href="#running-the-scripts" title="Permanent link">&para;</a></h2>
-<h3 id="1-ingesting-a-local-file">1. <strong>Ingesting a Local File</strong><a class="headerlink" href="#1-ingesting-a-local-file" title="Permanent link">&para;</a></h3>
-<p>To ingest a local file (<code>./assets/sample.webp</code>) into Walrus, run the following script:</p>
-<div class="highlight"><pre><span></span><code>./examples/file-ingestion.sh
-</code></pre></div>
-<p>This script does the following:</p>
-<ol>
-<li>Sets the necessary environment variables.</li>
-<li>Checks if the local file exists (<code>./assets/sample.webp</code>).</li>
-<li>Builds the Go <code>ingester</code> binary.</li>
-<li>Executes the ingestion of the local file using the <code>ingester local file</code> command.</li>
-<li>Cleans up after the ingestion.</li>
-</ol>
 <h3 id="2-ingesting-files-from-an-s3-bucket">2. <strong>Ingesting Files from an S3 Bucket</strong><a class="headerlink" href="#2-ingesting-files-from-an-s3-bucket" title="Permanent link">&para;</a></h3>
 <p>To ingest files from an S3 bucket into Walrus, run the following script:</p>
 <div class="highlight"><pre><span></span><code>./examples/s3-aws-ingestion.sh
@@ -794,7 +771,6 @@
 <p>If you encounter any errors while running the scripts, check the following:</p>
 <ol>
 <li><strong>AWS Environment Variables</strong>: Ensure the AWS environment variables are correctly set in the <code>env</code> file.</li>
-<li><strong>File Path</strong>: For <code>file-ingestion.sh</code>, ensure the file path (<code>./assets/sample.webp</code>) exists and is accessible.</li>
 <li><strong>Permission Issues</strong>: Make sure your AWS user has the necessary permissions to access the S3 bucket (<code>s3:ListBucket</code>, <code>s3:GetObject</code>).</li>
 </ol>
 
