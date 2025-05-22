@@ -759,7 +759,6 @@ go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span
 <p><code>--bucket</code> (string, required)</p>
 </li>
 <li><code>--region</code> (string, required)</li>
-<li>Other flags (<code>--prefix</code>, <code>--tags</code>, etc.) are reserved for future use and currently ignored.</li>
 </ul>
 <h3 id="2-ingester-list">2. <code>ingester list</code><a class="headerlink" href="#2-ingester-list" title="Permanent link">&para;</a></h3>
 <p>Prints all original S3 keys stored in the given metadata blob.</p>
@@ -780,10 +779,10 @@ ingester<span class="w"> </span>get<span class="w"> </span><span class="se">\</s
 <span class="w">  </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--key<span class="w"> </span>path/to/file.txt
 
-<span class="c1"># To a file:</span>
-ingester<span class="w"> </span>get<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--meta-blob-id<span class="w"> </span>QmSvz…Yz123<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--key<span class="w"> </span>images/photo.png<span class="w"> </span><span class="se">\</span>
+<span class="c1"># → Hello, this is the content of file.txt.</span>
+<span class="c1"># → It was originally stored in an AWS S3 bucket</span>
+<span class="c1"># → and ingested into Walrus via the CLI.</span>
+<span class="c1"># → Enjoy your data! 🚰</span>
 </code></pre></div>
 <ul>
 <li>
