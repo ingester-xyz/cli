@@ -45,12 +45,12 @@ This generates an executable named `ingester` in your project root.
 
 All commands live under the `ingester` root command:
 
-| Command  | Description                                                                            |
-| -------- | -------------------------------------------------------------------------------------- |
-| `s3`     | Ingests all objects from a bucket into Walrus and persists refs metadata               |
-| `list`   | Lists all ingested S3 keys from a metadata blob                                        |
-| `get`    | Retrieves a single file by its S3 key and writes to stdout or file                     |
-| `lookup` | (alias) Same as `list` + `get` combined: lists when no key, fetches when `--key` given |
+| Command | Description                                                              |
+| ------- | ------------------------------------------------------------------------ |
+| `s3`    | Ingests all objects from a bucket into Walrus and persists refs metadata |
+| `list`  | Lists all ingested S3 keys from a metadata blob                          |
+| `get`   | Retrieves a single file by its S3 key and writes to stdout or file       |
+| `url`   | Get public URL for AWS S3 ingested data key in Walrus                    |
 
 ### 1. `ingester s3`
 
