@@ -622,13 +622,13 @@
 
 
 <h1 id="what-is-ingester">What is Ingester?<a class="headerlink" href="#what-is-ingester" title="Permanent link">&para;</a></h1>
-<p><strong>Ingester</strong> is a Go-based CLI tool designed to ingest data into Walrus seamless and predictable.</p>
+<p><strong>Ingester</strong> is a Go-based CLI tool that makes ingesting data into Walrus seamless and predictable.</p>
 <blockquote>
-<p><strong>Like opening the tap 🚰</strong></p>
+<p><strong>Just like opening the tap 🚰</strong></p>
 </blockquote>
-<p>For this first iteration, it helps migrating existing data from <strong>AWS S3</strong> into Walrus.</p>
+<p>In its first iteration, it focuses on migrating existing data from <em>AWS S3</em> into Walrus. Along the way, it generates a metadata file that enables efficient search operations (e.g., <code>list</code> or <code>get</code>), similar to the native behavior of AWS S3. This simplifies the management of large volumes of blobs stored in Walrus.</p>
 <p><img alt="Ingester AWS Logo" src="../../assets/aws-s3-ingester.png" style="max-width: 20%; height: auto;" /></p>
-<p>More integrations are ready to come (e.g. Arweave -&gt; Walrus).</p>
+<p>In the future, more integrations are ready to come (e.g. Arweave -&gt; Walrus).</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
 <p>Today, Walrus stores data as scattered blobs, with no built-in structure, and ingesting data into it is a manual, fragmented process.
 As a result, every team has to build their own solution.</p>
