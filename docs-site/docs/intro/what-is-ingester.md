@@ -1,14 +1,14 @@
 # What is Ingester?
 
-**Ingester** is a Go-based CLI tool designed to ingest data into Walrus seamless and predictable.
+**Ingester** is a Go-based CLI tool that makes ingesting data into Walrus seamless and predictable.
 
-> **Like opening the tap 🚰**
+> **Just like opening the tap 🚰**
 
-For this first iteration, it helps migrating existing data from **AWS S3** into Walrus.
+In its first iteration, it focuses on migrating existing data from _AWS S3_ into Walrus. Along the way, it generates a metadata file that enables efficient search operations (e.g., `list` or `get`), similar to the native behavior of AWS S3. This simplifies the management of large volumes of blobs stored in Walrus.
 
 ![Ingester AWS Logo](../assets/aws-s3-ingester.png){ style="max-width: 20%; height: auto;" }
 
-More integrations are ready to come (e.g. Arweave -> Walrus).
+In the future, more integrations are ready to come (e.g. Arweave -> Walrus).
 
 ## Context
 

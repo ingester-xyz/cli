@@ -2,30 +2,25 @@
 
 ## The Problem
 
-Walrus stores data as individual blobs, without inherent structure.
-
-Developers struggle to manage and relate these blobs meaningfully.
-
-Ingesting data into Walrus today is manual and fragmented — each team must build its own solution.
-
-This slows adoption and creates unnecessary technical barriers.
+Walrus stores data as unstructured blobs, leaving developers to manually organize and relate them.
+Today, ingestion is fragmented — each team builds its own solution. This slows adoption and introduces avoidable technical hurdles.
 
 ## The Solution
 
-Provides an automatic, schema-driven structure over Walrus blobs.
+Ingester brings structure and automation to Walrus:
 
-Offers ready-made integrations (AWS S3, and more) to simplify ingestion.
+- Automatically organizes blobs using a metadata-driven approach
 
-Delivers a plug-and-play experience where developers can just use Walrus, without reinventing ingestion pipelines.
+- Integrates out-of-the-box with sources like AWS S3 (more coming in the future)
 
-Frees teams from worrying about data relationships or implementation details — it just works.
+- Enables a plug-and-play developer experience — no need to reinvent ingestion pipelines
 
 ## Value Proposition
 
-Ingester simplifies how teams use Walrus by solving two critical problems:
+Ingester solves two key challenges for teams using Walrus:
 
-- It adds structure — turning scattered blobs into organized, connected data, so developers don’t have to figure it out themselves.
+- Adds structure: Turns scattered blobs into connected, queryable data by using metadata files after ingestion.
 
-- It removes friction — offering ready-to-use integrations that make ingesting data easy, saving teams from wasting time building custom solutions.
+- Removes friction: Provides ready-made ingestion flows to save time and reduce complexity
 
-With Ingester, Walrus becomes a plug-and-play, developer-friendly storage platform, accelerating adoption across diverse industries and unlocking the full potential of decentralized storage.
+With Ingester, Walrus becomes a developer-friendly, ready-to-use storage platform — accelerating adoption and unlocking the full potential of decentralized storage.
