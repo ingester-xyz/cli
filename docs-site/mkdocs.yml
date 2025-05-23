@@ -1,5 +1,7 @@
 site_name: Ingester CLI
 site_description: "Ingest S3 ↔ Walrus storage with a simple CLI"
+repo_url: https://github.com/ingester-xyz/cli
+repo_name: GitHub
 theme:
   name: material
   features:
