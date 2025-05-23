@@ -7,7 +7,7 @@ hide:
 
 # Ingester CLI 🚰
 
-Welcome to **Ingester**, a CLI tool to easily ingest AWS S3 objects into [Walrus](https://github.com/namihq/walrus) storage.
+Welcome to **Ingester**, a CLI tool to easily ingest AWS S3 objects into [Walrus](https://www.walrus.xyz/) storage.
 
 ![Ingester CLI Logo](assets/ingester-logo.png){ style="max-width: 20%; height: auto;" }
 
